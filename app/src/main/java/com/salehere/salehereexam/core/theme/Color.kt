@@ -1,4 +1,4 @@
-package com.salehere.salehereexam.ui.theme
+package com.salehere.salehereexam.core.theme
 
 import androidx.compose.ui.graphics.Color
 
