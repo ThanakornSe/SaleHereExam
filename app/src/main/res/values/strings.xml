@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">SaleHereExam</string>
+    <string name="home_catalog_good_txt">Good</string>
+    <string name="home_catalogue_unhappy_text">Unhappy</string>
 </resources>
