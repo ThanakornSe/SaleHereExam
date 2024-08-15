@@ -46,6 +46,7 @@ import com.salehere.salehereexam.core.theme.space24Dp
 import com.salehere.salehereexam.core.theme.space4Dp
 import com.salehere.salehereexam.core.theme.space8Dp
 import com.salehere.salehereexam.core.theme.white
+import com.salehere.salehereexam.core.ui.homeTopBarGradientBackground
 import com.salehere.salehereexam.ui.home.model.HomeUiState
 
 @Composable
@@ -71,7 +72,7 @@ fun HomeScreen(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(homeToolbarOrange)
+                    .homeTopBarGradientBackground()
                     .statusBarsPadding()
                     .padding(top = space16Dp)
             ) {
