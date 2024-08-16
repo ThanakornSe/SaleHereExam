@@ -1,12 +1,25 @@
 package com.salehere.salehereexam.ui.home.model
 
-import androidx.compose.runtime.Immutable
-
-@Immutable
 data class HomeUiState(
-//    val headerContent: List<HomeHeaderUiModel>? = null,
-//    val bodyContent: HomeBodyUiModel? = null,
-    val openDialog : ((String) -> Unit)? = null,
-    val isLoading: Boolean = false,
-    val apiError: String? = null,
+    val goals: List<Goal>? = null,
+    val allSaving: String? = null,
+    val bestOffers: List<BestOffer>? = null,
+    val suggestions: List<Suggestion>? = null,
+)
+
+data class Goal(
+    val saving: String? = null,
+    val goalSaving: String? = null,
+    val icon: Int? = null,
+    val name: String? = null,
+    val status: String? = null,
+    val expired: String? = null,
+)
+
+data class BestOffer(
+    val img:Int? = null
+)
+
+data class Suggestion(
+    val img:Int? = null
 )

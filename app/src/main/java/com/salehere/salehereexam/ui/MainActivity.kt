@@ -19,10 +19,12 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemColors
 import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -31,6 +33,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.salehere.salehereexam.core.theme.AppTheme
 import com.salehere.salehereexam.core.theme.borderBottomNavTint
+import com.salehere.salehereexam.core.theme.bottomNavBarColor
 import com.salehere.salehereexam.core.theme.disableIcon
 import com.salehere.salehereexam.core.theme.dividerGrey
 import com.salehere.salehereexam.core.theme.white
@@ -45,63 +48,73 @@ class MainActivity : ComponentActivity() {
         setContent {
             AppTheme {
                 val navController: NavHostController = rememberNavController()
-
-                Scaffold(
-                    modifier = Modifier.fillMaxSize(),
-                    bottomBar = {
-                        NavigationBar(
-                            containerColor = white,
-                        ) {
-                            Column {
-                                Spacer(
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .height(1.dp)
-                                        .background(dividerGrey)
-                                )
-                                Row {
-                                    val navBackStackEntry by navController.currentBackStackEntryAsState()
-                                    val currentDestination = navBackStackEntry?.destination
-                                    BottomNavigationItem().bottomNavigationItems()
-                                        .forEach { navigationItem ->
-                                            NavigationBarItem(
-                                                selected = currentDestination?.hierarchy?.any { it.route == navigationItem.route } == true,
-                                                label = null,
-                                                colors = NavigationBarItemColors(
-                                                    selectedIconColor = borderBottomNavTint,
-                                                    selectedTextColor = borderBottomNavTint,
-                                                    selectedIndicatorColor = Color.Transparent,
-                                                    unselectedIconColor = disableIcon,
-                                                    unselectedTextColor = disableIcon,
-                                                    disabledIconColor = disableIcon,
-                                                    disabledTextColor = disableIcon
-                                                ),
-                                                icon = {
-                                                    Icon(
-                                                        modifier = Modifier.size(32.dp),
-                                                        painter = painterResource(id = navigationItem.icon),
-                                                        contentDescription = null
-                                                    )
-                                                },
-                                                onClick = {
-                                                    navController.navigate(navigationItem.route) {
-                                                        popUpTo(navController.graph.findStartDestination().id) {
-                                                            saveState = true
-                                                        }
-                                                        launchSingleTop = true
-                                                        restoreState = true
-                                                    }
-                                                }
-                                            )
-                                        }
-                                }
-                            }
-                        }
-                    }
-                ) { it
-                    AppNavHost(navController)
-                }
+                MainActivityScreen(navController = navController)
             }
         }
     }
+}
+
+@Composable
+fun MainActivityScreen(navController: NavHostController) {
+    Scaffold(
+        modifier = Modifier.fillMaxSize(),
+        bottomBar = {
+            NavigationBar(
+                containerColor = bottomNavBarColor,
+            ) {
+                Column {
+                    Spacer(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(1.dp)
+                            .background(dividerGrey)
+                    )
+                    Row {
+                        val navBackStackEntry by navController.currentBackStackEntryAsState()
+                        val currentDestination = navBackStackEntry?.destination
+                        BottomNavigationItem().bottomNavigationItems()
+                            .forEach { navigationItem ->
+                                NavigationBarItem(
+                                    selected = currentDestination?.hierarchy?.any { it.route == navigationItem.route } == true,
+                                    label = null,
+                                    colors = NavigationBarItemColors(
+                                        selectedIconColor = borderBottomNavTint,
+                                        selectedTextColor = borderBottomNavTint,
+                                        selectedIndicatorColor = Color.Transparent,
+                                        unselectedIconColor = disableIcon,
+                                        unselectedTextColor = disableIcon,
+                                        disabledIconColor = disableIcon,
+                                        disabledTextColor = disableIcon
+                                    ),
+                                    icon = {
+                                        Icon(
+                                            modifier = Modifier.size(32.dp),
+                                            painter = painterResource(id = navigationItem.icon),
+                                            contentDescription = null
+                                        )
+                                    },
+                                    onClick = {
+                                        navController.navigate(navigationItem.route) {
+                                            popUpTo(navController.graph.findStartDestination().id) {
+                                                saveState = true
+                                            }
+                                            launchSingleTop = true
+                                            restoreState = true
+                                        }
+                                    }
+                                )
+                            }
+                    }
+                }
+            }
+        }
+    ) { it
+        AppNavHost(navController)
+    }
+}
+
+@Composable
+@Preview
+private fun DefaultMainActivityScreenPreview() {
+    MainActivityScreen(navController = rememberNavController())
 }

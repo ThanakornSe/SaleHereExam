@@ -33,22 +33,26 @@ import com.salehere.salehereexam.core.theme.borderGreen
 import com.salehere.salehereexam.core.theme.borderRed
 import com.salehere.salehereexam.core.theme.unHappyColor
 import com.salehere.salehereexam.core.theme.progressBackground
+import com.salehere.salehereexam.core.theme.space150Dp
 import com.salehere.salehereexam.core.theme.space16Dp
 import com.salehere.salehereexam.core.theme.space24Dp
+import com.salehere.salehereexam.core.theme.space2Dp
 import com.salehere.salehereexam.core.theme.space8Dp
 import com.salehere.salehereexam.core.theme.white
+import com.salehere.salehereexam.data.home.model.GoalResponse
+import com.salehere.salehereexam.ui.home.model.Goal
 
 @Composable
 fun HomeTopCatalogue(
-    isGood: Boolean = true,
-    isEven: Boolean = false
+    homeGoal: Goal,
+    isEven: Boolean = false,
 ) {
     Column(
         modifier = Modifier
-            .size(150.dp)
+            .size(space150Dp)
             .border(
                 border = BorderStroke(
-                    2.dp,
+                    space2Dp,
                     if (isEven) borderRed else borderGreen
                 ),
                 shape = RoundedCornerShape(
@@ -64,35 +68,36 @@ fun HomeTopCatalogue(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Icon(
-                modifier = Modifier.size(space24Dp),
-                painter = painterResource(id = R.drawable.ic_luggage),
-                tint = borderRed,
-                contentDescription = null
-            )
+            homeGoal.icon?.let {
+                Icon(
+                    modifier = Modifier.size(space24Dp),
+                    painter = painterResource(id = it),
+                    tint = borderRed,
+                    contentDescription = null
+                )
+            }
             Column(
                 horizontalAlignment = Alignment.End
             ) {
                 Text(
-                    text = "16,500 THB",
+                    text = homeGoal.saving ?: "",
                     color = borderRed,
                     style = Typography.bodyMedium,
                 )
                 Text(
-                    text = "16,500 THB",
+                    text = homeGoal.goalSaving ?: "",
                     color = black,
                     style = Typography.bodySmall,
                 )
             }
-
         }
 
         Spacer(modifier = Modifier.height(space8Dp))
 
         AppProgressbar(
-            primaryProgress = 80f,
-            secondaryProgress = 100f,
-            max = 100f,
+            primaryProgress = homeGoal.saving?.replace(",", "")?.toFloat() ?: 0f,
+            secondaryProgress = homeGoal.goalSaving?.replace(",", "")?.toFloat() ?: 0f,
+            max = homeGoal.goalSaving?.replace(",", "")?.toFloat() ?: 100f,
             primaryColor = borderBottomNavTint,
             secondaryColor = progressBackground,
             backgroundColor = progressBackground
@@ -101,7 +106,7 @@ fun HomeTopCatalogue(
         Spacer(modifier = Modifier.height(space16Dp))
 
         Text(
-            text = "ไปเที่ยวญี่ปุ่น",
+            text = homeGoal.name ?: "",
             color = black,
             style = Typography.bodyMedium,
         )
@@ -114,15 +119,13 @@ fun HomeTopCatalogue(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = if (isGood) stringResource(R.string.home_catalog_good_txt) else stringResource(
-                    R.string.home_catalogue_unhappy_text
-                ),
-                color = if (isGood) goodColor else unHappyColor,
+                text = homeGoal.status ?: "",
+                color = if (homeGoal.status == "Good") goodColor else unHappyColor,
                 style = Typography.bodyMedium,
                 fontSize = 10.sp
             )
             Text(
-                text = "45 Days left",
+                text = stringResource(R.string.goal_days_left, homeGoal.expired ?: ""),
                 color = black,
                 style = Typography.bodyMedium,
                 fontSize = 10.sp
@@ -136,7 +139,14 @@ fun HomeTopCatalogue(
 private fun DefaultHomeTopCataloguePreview() {
     AppTheme {
         HomeTopCatalogue(
-            isGood = true
+            homeGoal = Goal(
+                saving = "16,500",
+                goalSaving = "20,000",
+                icon = R.drawable.ic_luggage,
+                name = "ไปเที่ยวญี่ปุ่น",
+                status = "Good",
+                expired = "45"
+            )
         )
     }
 }
