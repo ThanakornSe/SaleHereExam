@@ -39,6 +39,7 @@ import com.salehere.salehereexam.core.theme.dividerGrey
 import com.salehere.salehereexam.core.theme.white
 import com.salehere.salehereexam.ui.navigation.AppNavHost
 import com.salehere.salehereexam.ui.navigation.BottomNavigationItem
+import com.salehere.salehereexam.ui.navigation.Screen
 
 class MainActivity : ComponentActivity() {
 
@@ -59,51 +60,54 @@ fun MainActivityScreen(navController: NavHostController) {
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         bottomBar = {
-            NavigationBar(
-                containerColor = bottomNavBarColor,
-            ) {
-                Column {
-                    Spacer(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(1.dp)
-                            .background(dividerGrey)
-                    )
-                    Row {
-                        val navBackStackEntry by navController.currentBackStackEntryAsState()
-                        val currentDestination = navBackStackEntry?.destination
-                        BottomNavigationItem().bottomNavigationItems()
-                            .forEach { navigationItem ->
-                                NavigationBarItem(
-                                    selected = currentDestination?.hierarchy?.any { it.route == navigationItem.route } == true,
-                                    label = null,
-                                    colors = NavigationBarItemColors(
-                                        selectedIconColor = borderBottomNavTint,
-                                        selectedTextColor = borderBottomNavTint,
-                                        selectedIndicatorColor = Color.Transparent,
-                                        unselectedIconColor = disableIcon,
-                                        unselectedTextColor = disableIcon,
-                                        disabledIconColor = disableIcon,
-                                        disabledTextColor = disableIcon
-                                    ),
-                                    icon = {
-                                        Icon(
-                                            modifier = Modifier.size(32.dp),
-                                            painter = painterResource(id = navigationItem.icon),
-                                            contentDescription = null
-                                        )
-                                    },
-                                    onClick = {
-                                        navController.navigate(navigationItem.route) {
-                                            popUpTo(navController.graph.findStartDestination().id) {
-                                                saveState = true
+            val navBackStackEntry by navController.currentBackStackEntryAsState()
+            val currentDestination = navBackStackEntry?.destination
+            if (currentDestination?.route != Screen.GOAL.name) {
+                NavigationBar(
+                    containerColor = bottomNavBarColor,
+                ) {
+                    Column {
+                        Spacer(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(1.dp)
+                                .background(dividerGrey)
+                        )
+                        Row {
+
+                            BottomNavigationItem().bottomNavigationItems()
+                                .forEach { navigationItem ->
+                                    NavigationBarItem(
+                                        selected = currentDestination?.hierarchy?.any { it.route == navigationItem.route } == true,
+                                        label = null,
+                                        colors = NavigationBarItemColors(
+                                            selectedIconColor = borderBottomNavTint,
+                                            selectedTextColor = borderBottomNavTint,
+                                            selectedIndicatorColor = Color.Transparent,
+                                            unselectedIconColor = disableIcon,
+                                            unselectedTextColor = disableIcon,
+                                            disabledIconColor = disableIcon,
+                                            disabledTextColor = disableIcon
+                                        ),
+                                        icon = {
+                                            Icon(
+                                                modifier = Modifier.size(32.dp),
+                                                painter = painterResource(id = navigationItem.icon),
+                                                contentDescription = null
+                                            )
+                                        },
+                                        onClick = {
+                                            navController.navigate(navigationItem.route) {
+                                                popUpTo(navController.graph.findStartDestination().id) {
+                                                    saveState = true
+                                                }
+                                                launchSingleTop = true
+                                                restoreState = true
                                             }
-                                            launchSingleTop = true
-                                            restoreState = true
                                         }
-                                    }
-                                )
-                            }
+                                    )
+                                }
+                        }
                     }
                 }
             }

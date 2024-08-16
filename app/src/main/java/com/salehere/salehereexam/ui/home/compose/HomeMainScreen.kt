@@ -72,6 +72,7 @@ import com.salehere.salehereexam.ui.home.model.Goal
 import com.salehere.salehereexam.ui.home.model.HomeUiState
 import com.salehere.salehereexam.ui.home.model.Suggestion
 import com.salehere.salehereexam.ui.home.viewmodel.HomeViewModel
+import com.salehere.salehereexam.ui.navigation.Screen
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -86,13 +87,16 @@ fun HomeMainScreen(
 
     val uiState by viewModel.uiState.collectAsState()
 
-    HomeScreen(uiState = uiState)
+    HomeScreen(uiState = uiState, onNewGoalClick = {
+        navHostController.navigate(Screen.GOAL.name)
+    })
 }
 
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
     uiState: HomeUiState,
+    onNewGoalClick: () -> Unit = {},
 ) {
     LazyColumn(
         modifier = Modifier
@@ -189,7 +193,10 @@ fun HomeScreen(
                     containerColor = borderBottomNavTint,
                     contentColor = white
                 ),
-                onClick = { /*TODO*/ }) {
+                onClick = {
+                    onNewGoalClick()
+                }
+            ) {
                 Text(
                     text = stringResource(R.string.home_new_goal_button),
                     style = MaterialTheme.typography.titleMedium,
