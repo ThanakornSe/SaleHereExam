@@ -4,7 +4,6 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -19,32 +18,25 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -53,7 +45,6 @@ import com.salehere.salehereexam.core.theme.AppTheme
 import com.salehere.salehereexam.core.theme.Typography
 import com.salehere.salehereexam.core.theme.borderRed
 import com.salehere.salehereexam.core.theme.homeToolbarOrange
-import com.salehere.salehereexam.core.theme.placeholderText
 import com.salehere.salehereexam.core.theme.primaryText
 import com.salehere.salehereexam.core.theme.space16Dp
 import com.salehere.salehereexam.core.theme.space2Dp
@@ -61,15 +52,28 @@ import com.salehere.salehereexam.core.theme.space32Dp
 import com.salehere.salehereexam.core.theme.space8Dp
 import com.salehere.salehereexam.core.theme.white
 import com.salehere.salehereexam.core.ui.AppTextField
-import java.util.Vector
+import com.salehere.salehereexam.data.goal.model.CategoryResponse
+import com.salehere.salehereexam.data.goal.model.GoalScreenResponse
+import com.salehere.salehereexam.ui.goal.model.Category
+import com.salehere.salehereexam.ui.goal.model.GoalScreenUiState
+import com.salehere.salehereexam.ui.goal.viewmodel.GoalViewModel
+import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun GoalMainScreen() {
-    GoalScreen()
+fun GoalMainScreen(viewModel: GoalViewModel = koinViewModel()) {
+    val uiState by viewModel.uiState.collectAsState()
+
+    LaunchedEffect(Unit) {
+        viewModel.getGoalData()
+    }
+
+    GoalScreen(uiState)
 }
 
 @Composable
-fun GoalScreen() {
+fun GoalScreen(
+    uiState: GoalScreenUiState
+) {
     val focusManager = LocalFocusManager.current
 
     Scaffold(
@@ -120,38 +124,42 @@ fun GoalScreen() {
             horizontalArrangement = Arrangement.spacedBy(space16Dp),
             verticalArrangement = Arrangement.spacedBy(space16Dp)
         ) {
-            items(5) {
-                Card(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .size(100.dp),
-                    shape = RoundedCornerShape(space8Dp),
-                    colors = CardDefaults.cardColors(
-                        containerColor = white
-                    ),
-                    border = BorderStroke(width = space2Dp, color = borderRed)
-                ) {
-                    Column(
+            uiState.categories?.let {
+                items(it) {
+                    Card(
                         modifier = Modifier
-                            .fillMaxSize()
-                            .padding(space8Dp),
-                        horizontalAlignment = Alignment.CenterHorizontally
+                            .fillMaxWidth()
+                            .size(100.dp),
+                        shape = RoundedCornerShape(space8Dp),
+                        colors = CardDefaults.cardColors(
+                            containerColor = white
+                        ),
+                        border = BorderStroke(width = space2Dp, color = borderRed)
                     ) {
-                        Icon(
+                        Column(
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .weight(1f),
-                            painter = painterResource(id = R.drawable.ic_luggage),
-                            contentDescription = null,
-                            tint = borderRed
-                        )
+                                .fillMaxSize()
+                                .padding(space8Dp),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            it.img?.let { image ->
+                                Icon(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .weight(1f),
+                                    painter = painterResource(id = image),
+                                    contentDescription = null,
+                                    tint = borderRed
+                                )
+                            }
+                            Spacer(modifier = Modifier.height(space8Dp))
 
-                        Spacer(modifier = Modifier.height(space8Dp))
-
-                        Text(text = "Travel", style = Typography.bodyMedium, fontSize = 12.sp)
+                            Text(text = "Travel", style = Typography.bodyMedium, fontSize = 12.sp)
+                        }
                     }
                 }
             }
+
 
             item(span = { GridItemSpan(3) }) {
                 Column {
@@ -260,18 +268,33 @@ fun GoalScreen() {
                     )
                 }
             }
-
         }
-
     }
-
-
 }
 
 @Preview
 @Composable
 private fun DefaultGoalScreenPreview() {
     AppTheme {
-        GoalScreen()
+        GoalScreen(uiState = GoalScreenUiState(
+            categories = listOf(
+                Category(
+                    img = R.drawable.ic_luggage, name = "Travel"
+                ),
+                Category(
+                    img = R.drawable.ic_education, name = "Education"
+                ),
+                Category(
+                    img = R.drawable.ic_stock, name = "Invest"
+                ),
+                Category(
+                    img = R.drawable.ic_cloth, name = "Clothing"
+                ),
+                Category(
+                    img = R.drawable.ic_education, name = "Education"
+                ),
+            )
+        )
+        )
     }
 }
