@@ -72,7 +72,7 @@ fun GoalMainScreen(viewModel: GoalViewModel = koinViewModel()) {
 
 @Composable
 fun GoalScreen(
-    uiState: GoalScreenUiState
+    uiState: GoalScreenUiState,
 ) {
     val focusManager = LocalFocusManager.current
 
@@ -154,7 +154,11 @@ fun GoalScreen(
                             }
                             Spacer(modifier = Modifier.height(space8Dp))
 
-                            Text(text = "Travel", style = Typography.bodyMedium, fontSize = 12.sp)
+                            Text(
+                                text = it.name ?: "",
+                                style = Typography.bodyMedium,
+                                fontSize = 12.sp
+                            )
                         }
                     }
                 }
@@ -276,25 +280,26 @@ fun GoalScreen(
 @Composable
 private fun DefaultGoalScreenPreview() {
     AppTheme {
-        GoalScreen(uiState = GoalScreenUiState(
-            categories = listOf(
-                Category(
-                    img = R.drawable.ic_luggage, name = "Travel"
-                ),
-                Category(
-                    img = R.drawable.ic_education, name = "Education"
-                ),
-                Category(
-                    img = R.drawable.ic_stock, name = "Invest"
-                ),
-                Category(
-                    img = R.drawable.ic_cloth, name = "Clothing"
-                ),
-                Category(
-                    img = R.drawable.ic_education, name = "Education"
-                ),
+        GoalScreen(
+            uiState = GoalScreenUiState(
+                categories = listOf(
+                    Category(
+                        img = R.drawable.ic_luggage, name = "Travel"
+                    ),
+                    Category(
+                        img = R.drawable.ic_education, name = "Education"
+                    ),
+                    Category(
+                        img = R.drawable.ic_stock, name = "Invest"
+                    ),
+                    Category(
+                        img = R.drawable.ic_cloth, name = "Clothing"
+                    ),
+                    Category(
+                        img = R.drawable.ic_education, name = "Education"
+                    ),
+                )
             )
-        )
         )
     }
 }

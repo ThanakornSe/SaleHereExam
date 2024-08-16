@@ -15,6 +15,7 @@ import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.salehere.salehereexam.ui.achievement.compose.AchievementMainScreen
 import com.salehere.salehereexam.ui.goal.compose.GoalMainScreen
 import com.salehere.salehereexam.ui.home.compose.HomeMainScreen
 
@@ -47,9 +48,7 @@ fun AppNavHost(
             }
         }
         composable(NavigationItem.Achievement.route) {
-            Surface {
-
-            }
+            AchievementMainScreen()
         }
         composable(NavigationItem.Profile.route) {
             Surface {
