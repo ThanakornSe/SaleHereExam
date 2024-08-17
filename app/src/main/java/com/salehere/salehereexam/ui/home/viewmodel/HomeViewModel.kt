@@ -33,7 +33,6 @@ class HomeViewModel(
                 )
             }
         }.launchIn(viewModelScope)
-
     }
 
 }

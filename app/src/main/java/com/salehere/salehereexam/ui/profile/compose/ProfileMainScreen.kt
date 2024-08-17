@@ -1,8 +1,10 @@
 package com.salehere.salehereexam.ui.profile.compose
 
 import android.app.Activity
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -15,6 +17,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import com.salehere.salehereexam.core.theme.AppTheme
 import com.salehere.salehereexam.core.theme.black
+import com.salehere.salehereexam.core.theme.white
 import com.salehere.salehereexam.ui.profile.viewmodel.ProfileViewModel
 import org.koin.androidx.compose.koinViewModel
 
@@ -38,7 +41,7 @@ fun ProfileMainScreen(viewModel: ProfileViewModel = koinViewModel()) {
 
 @Composable
 fun ProfileScreen() {
-    Box(modifier = Modifier.fillMaxSize()) {}
+    Box(modifier = Modifier.fillMaxSize().statusBarsPadding().background(color = white))
 }
 
 @Preview

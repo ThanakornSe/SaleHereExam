@@ -44,6 +44,7 @@ import androidx.compose.ui.unit.sp
 import com.salehere.salehereexam.R
 import com.salehere.salehereexam.core.theme.AppTheme
 import com.salehere.salehereexam.core.theme.Typography
+import com.salehere.salehereexam.core.theme.black
 import com.salehere.salehereexam.core.theme.borderRed
 import com.salehere.salehereexam.core.theme.homeToolbarOrange
 import com.salehere.salehereexam.core.theme.primaryText
@@ -158,7 +159,8 @@ fun AchievementScreen(uiState: AchievementUiState) {
                                 Text(
                                     text = name,
                                     style = Typography.bodyMedium,
-                                    fontSize = 12.sp
+                                    fontSize = 12.sp,
+                                    color = black
                                 )
                             }
                         }

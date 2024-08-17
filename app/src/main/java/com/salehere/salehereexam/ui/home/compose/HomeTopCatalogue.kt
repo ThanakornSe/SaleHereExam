@@ -120,7 +120,7 @@ fun HomeTopCatalogue(
         ) {
             Text(
                 text = homeGoal.status ?: "",
-                color = if (homeGoal.status == "Good") goodColor else unHappyColor,
+                color = if (homeGoal.status == stringResource(id = R.string.home_catalog_good_txt)) goodColor else unHappyColor,
                 style = Typography.bodyMedium,
                 fontSize = 10.sp
             )

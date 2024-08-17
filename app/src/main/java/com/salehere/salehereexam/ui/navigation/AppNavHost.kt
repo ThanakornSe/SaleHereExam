@@ -8,6 +8,10 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -15,6 +19,7 @@ import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.salehere.salehereexam.core.theme.white
 import com.salehere.salehereexam.ui.achievement.compose.AchievementMainScreen
 import com.salehere.salehereexam.ui.goal.compose.GoalMainScreen
 import com.salehere.salehereexam.ui.home.compose.HomeMainScreen
@@ -44,9 +49,7 @@ fun AppNavHost(
             GoalMainScreen()
         }
         composable(NavigationItem.Wallet.route) {
-            Surface {
-
-            }
+            Box(modifier = Modifier.fillMaxSize().statusBarsPadding().background(color = white))
         }
         composable(NavigationItem.Achievement.route) {
             AchievementMainScreen()

@@ -13,4 +13,5 @@
     <string name="goal_select_date_text_field">Select Date</string>
     <string name="goal_select_account_text_field">Select Account</string>
     <string name="goal_currency_trailing_text_field">THB / Month</string>
+    <string name="goal_screen_title">What your Goal</string>
 </resources>

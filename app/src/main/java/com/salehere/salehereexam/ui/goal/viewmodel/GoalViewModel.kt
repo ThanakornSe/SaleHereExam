@@ -30,7 +30,6 @@ class GoalViewModel(
                 )
             }
         }.launchIn(viewModelScope)
-
     }
 
 }
