@@ -1,3 +1,17 @@
 <resources>
     <string name="app_name">SaleHereExam</string>
+    <string name="home_catalog_good_txt">Good</string>
+    <string name="home_catalogue_unhappy_text">Unhappy</string>
+    <string name="home_new_goal_button">+ New Goal</string>
+    <string name="home_best_offer_tab">Best Offer</string>
+    <string name="home_suggest_for_you_tab">Suggest for you</string>
+    <string name="home_all_saving_tab">"All Saving "</string>
+    <string name="home_currency_thb">" THB"</string>
+    <string name="home_goal_count">%1$s Goals</string>
+    <string name="goal_days_left">%1$s Days left</string>
+    <string name="goal_amount_text_field">Amount</string>
+    <string name="goal_select_date_text_field">Select Date</string>
+    <string name="goal_select_account_text_field">Select Account</string>
+    <string name="goal_currency_trailing_text_field">THB / Month</string>
+    <string name="goal_screen_title">What your Goal</string>
 </resources>

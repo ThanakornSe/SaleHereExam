@@ -60,6 +60,28 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.navigation)
+
+    // ViewModel
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+
+    // DI Koin
+    implementation(platform(libs.koin.bom))
+    implementation(libs.koin.core)
+    implementation(libs.koin.android)
+    implementation(libs.koin.compat)
+    implementation(libs.koin.workmanager)
+    implementation(libs.koin.navigation)
+    implementation(libs.koin.compose)
+
+    // Image
+    implementation(libs.coil.compose)
+
+    // Socket IO
+    implementation(libs.socket.io) {
+        exclude(group = "org.json", module = "json")
+    }
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
