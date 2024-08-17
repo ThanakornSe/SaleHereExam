@@ -18,6 +18,7 @@ import androidx.navigation.compose.composable
 import com.salehere.salehereexam.ui.achievement.compose.AchievementMainScreen
 import com.salehere.salehereexam.ui.goal.compose.GoalMainScreen
 import com.salehere.salehereexam.ui.home.compose.HomeMainScreen
+import com.salehere.salehereexam.ui.profile.compose.ProfileMainScreen
 
 @Composable
 fun AppNavHost(
@@ -51,9 +52,7 @@ fun AppNavHost(
             AchievementMainScreen()
         }
         composable(NavigationItem.Profile.route) {
-            Surface {
-
-            }
+            ProfileMainScreen()
         }
     }
 }

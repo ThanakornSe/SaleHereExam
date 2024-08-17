@@ -77,6 +77,11 @@ dependencies {
     // Image
     implementation(libs.coil.compose)
 
+    // Socket IO
+    implementation(libs.socket.io) {
+        exclude(group = "org.json", module = "json")
+    }
+
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
